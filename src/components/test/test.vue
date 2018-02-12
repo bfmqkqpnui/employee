@@ -10,18 +10,8 @@
     </el-row>
 
     <el-row class="row">
-      <el-col>
-        <el-input
-          placeholder="请输入员工编号"
-          v-model="empNo"
-          clearable>
-        </el-input>
-      </el-col>
-    </el-row>
-
-    <el-row class="row">
-      <el-col>
-        <el-select v-model="selStatus" clearable placeholder="请选择查询的员工性别">
+      <el-input placeholder="请输入要查询的员工号" v-model="empNo" class="input-with-select">
+        <el-select v-model="selStatus" slot="prepend" clearable placeholder="请选择查询的员工性别">
           <el-option
             v-for="item in deviceStatus"
             :key="item.value"
@@ -29,43 +19,8 @@
             :value="item.value">
           </el-option>
         </el-select>
-      </el-col>
-    </el-row>
-
-    <el-row class="row">
-      <el-col>
-        <el-input
-          placeholder="请输入员工名字"
-          v-model="empName"
-          clearable>
-        </el-input>
-      </el-col>
-    </el-row>
-
-    <el-row class="row">
-      <el-col>
-        <el-input
-          placeholder="请输入员工生日"
-          v-model="birthday"
-          clearable>
-        </el-input>
-      </el-col>
-    </el-row>
-
-    <el-row class="row">
-      <el-col>
-        <el-input
-          placeholder="请输入员工邮箱"
-          v-model="email"
-          clearable>
-        </el-input>
-      </el-col>
-    </el-row>
-
-    <el-row class="row">
-      <el-col>
-        <el-button type="primary" icon="el-icon-search" @click="search">搜索</el-button>
-      </el-col>
+        <el-button type="primary" slot="append" icon="el-icon-search" @click="search">搜索</el-button>
+      </el-input>
     </el-row>
 
     <el-row class="row">
@@ -114,7 +69,7 @@
     //组件私有数据（必须是function，而且要return对象类型）
     data() {
       return {
-        checkedList : [],
+        checkedList: [],
         tableList: [],
         deviceStatus: [
           {
@@ -129,7 +84,7 @@
         birthday: '',
         email: '',
         selStatus: '',
-        empNo : '',
+        empNo: '',
         empName: ''
       }
     },
@@ -143,16 +98,16 @@
         //url = '/pre/emp/queryAll';
         //url = '/pro/emp/queryAll';
         let param = {
-          id : this.empNo,
-          name : this.empName,
-          gender : this.selStatus,
-          birthday : this.birthday,
-          email : this.email
+          id: this.empNo,
+          name: this.empName,
+          gender: this.selStatus,
+          birthday: this.birthday,
+          email: this.email
         };
-        this.$http.post(url,param).then(function (data) {
+        this.$http.post(url, param).then(function (data) {
           console.log(data);
-          if(data.ok){
-            if(data.body.success){
+          if (data.ok) {
+            if (data.body.success) {
               this.tableList = data.body.obj;
             }
           }
@@ -160,6 +115,9 @@
           console.log("系统错误:" + err);
         })
       },
+      search() {
+        console.log("search is click");
+      }
     },
     //生命周期钩子：组件实例渲染完成时调用
     mounted() {
@@ -179,7 +137,15 @@
     margin-bottom: 1rem;
   }
 
-  table{
+  table {
     width: 100%;
+  }
+
+  .input-with-select .el-input-group__prepend {
+    background-color: #fff;
+  }
+
+  .el-select{
+    width: 200px;
   }
 </style>
